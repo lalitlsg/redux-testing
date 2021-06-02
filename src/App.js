@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import { connect } from "react-redux";
+import "./App.css";
+import Heading from "./components/heading/Heading";
+import { shwoHeading, hideHeading } from "./store/actions";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          {this.props.heading && <Heading />}
+          <button onClick={this.props.shwoHeading} data-test="show-btn">
+            Show Heading
+          </button>
+          <button onClick={this.props.hideHeading}>Hide Heading</button>
+        </header>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  const { heading } = state;
+  return { heading };
+};
+
+export default connect(mapStateToProps, { shwoHeading, hideHeading })(App);
