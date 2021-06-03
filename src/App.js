@@ -2,9 +2,12 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import Heading from "./components/heading/Heading";
-import { shwoHeading, hideHeading } from "./store/actions";
+import { shwoHeading, hideHeading, fetchNames } from "./store/actions";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchNames();
+  }
   render() {
     return (
       <div className="App">
@@ -25,4 +28,8 @@ const mapStateToProps = (state) => {
   return { heading };
 };
 
-export default connect(mapStateToProps, { shwoHeading, hideHeading })(App);
+export default connect(mapStateToProps, {
+  shwoHeading,
+  hideHeading,
+  fetchNames,
+})(App);
