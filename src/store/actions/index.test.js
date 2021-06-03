@@ -1,5 +1,5 @@
 import axios from "axios";
-import { actionTypes, shwoHeading, hideHeading, fetchNames } from "./";
+import { actionTypes, shwoHeading, hideHeading, fetchNames, URL } from "./";
 import configureStore from "../index";
 
 const fetchNamesMockResp = [
@@ -28,6 +28,8 @@ const fetchNamesMockResp = [
   },
 ];
 
+const errorMessage = "Something went wrong.";
+
 jest.mock("axios");
 
 test("should return action of type `SHOW_HEADING`", () => {
@@ -51,7 +53,20 @@ describe("`fetchNames` action creators", () => {
     };
     axios.get.mockResolvedValue({ data: fetchNamesMockResp });
     const store = configureStore();
-    await store.dispatch(fetchNames());
+    await store.dispatch(fetchNames(URL));
+    const result = store.getState().names;
+    expect(result).toEqual(expectedState);
+  });
+
+  test("should set the correct state for `FETCH_NAMES_ERROR` action", async () => {
+    const expectedState = {
+      loading: false,
+      data: [],
+      error: errorMessage,
+    };
+    axios.get.mockRejectedValue(new Error(errorMessage));
+    const store = configureStore();
+    await store.dispatch(fetchNames(URL + "l"));
     const result = store.getState().names;
     expect(result).toEqual(expectedState);
   });

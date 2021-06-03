@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import "./App.css";
 import Heading from "./components/heading/Heading";
 import { shwoHeading, hideHeading, fetchNames } from "./store/actions";
+import { URL } from "./store/actions";
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchNames();
+    this.props.fetchNames(URL);
   }
   render() {
     return (
