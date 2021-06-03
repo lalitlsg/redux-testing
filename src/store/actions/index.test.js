@@ -1,5 +1,12 @@
 import axios from "axios";
-import { actionTypes, shwoHeading, hideHeading, fetchNames, URL } from "./";
+import {
+  actionTypes,
+  shwoHeading,
+  hideHeading,
+  fetchNames,
+  URL,
+  setRank,
+} from "./";
 import configureStore from "../index";
 
 const fetchNamesMockResp = [
@@ -44,7 +51,7 @@ test("should return action of type `HIDE_HEADING`", () => {
   expect(result).toEqual(expectedAction);
 });
 
-describe("`fetchNames` action creators", () => {
+describe("`fetchNames` action creator", () => {
   test("should set the correct state for `FETCH_NAMES_SUCCESS` action ", async () => {
     const expectedState = {
       loading: false,
@@ -68,6 +75,30 @@ describe("`fetchNames` action creators", () => {
     const store = configureStore();
     await store.dispatch(fetchNames(URL + "l"));
     const result = store.getState().names;
+    expect(result).toEqual(expectedState);
+  });
+});
+
+describe("`setRank` action creator", () => {
+  test("should set the correct state for `SET_RANK` action", () => {
+    const expectedState = {
+      rank: 3,
+      isFirst: false,
+    };
+    const store = configureStore();
+    store.dispatch(setRank(3));
+    const result = store.getState().rank;
+    expect(result).toEqual(expectedState);
+  });
+
+  test("should set the correct state for `FIRST_RANK` action", () => {
+    const expectedState = {
+      rank: 1,
+      isFirst: true,
+    };
+    const store = configureStore();
+    store.dispatch(setRank(1));
+    const result = store.getState().rank;
     expect(result).toEqual(expectedState);
   });
 });
